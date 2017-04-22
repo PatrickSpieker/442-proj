@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="d3/d3.min.js"></script>
+        <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+        <style> 
+            div.bar {
+                display: inline-block;
+                width: 20px; 
+                height: 75px;
+                background-color: teal;
+                margin-right: 2px;
+            }
+        </style> 
+    </head>
+    <body>
+        <script type="text/javascript">
+            d3.csv("food.csv", function(error, data) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log(data);
+                }
+                var w = 500;
+                var h = 50;
+                var barPadding = 10;
+                var svg = d3.select("body").append("svg"); 
+                
+                svg.attr("width", w)
+                    .attr("height", h);
+
+                svg.selectAll("rect")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attrs({
+                        fill: function(d) { 
+                            return "rgb(0, 0, " + 
+                            (d['Deliciousness'] * 50) + ")";
+                            },
+                        x: function(d, i) {
+                            return i*(w/data.length);
+                            },
+                        y:  function(d) {
+                            return h - d['Deliciousness'];
+                            },
+                        width: w/data.length - barPadding,
+                        height:  function(d) {
+                            return  d['Deliciousness'] * 10;
+                        }
+                    });
+            });
+        </script>
+    </body>
+</html>
