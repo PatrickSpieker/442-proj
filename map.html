@@ -34,6 +34,10 @@
             var path = d3.geoPath()
                 .projection(projection);
 
+            d3.selection.prototype.moveToFront = function() {
+                return this.each(function() {
+                    this.parentNode.append(this);
+                })};
             d3.json("data/mid_east.json", function(error, me_na) {
                 if (error) throw error;
                 var features = me_na.features;
@@ -43,23 +47,23 @@
                    .data(features)
                    .enter().append("g")
                    .on("mouseover", function(d) {
-                       console.log(d.properties.name_long);
-                   })
-                   .on("mouseout", function(d) {
                         d3.select(this).append('text')
                             .attr("x", function(d) {
                                 var bbox = this.parentNode.getBBox();
-                                return bbox.x;
+                                return bbox.x + (bbox.width/2);
                             })
                             .attr("y", function(d) {
                                 var bbox = this.parentNode.getBBox();
-                                return bbox.y;
+                                return bbox.y + (bbox.height/2);
                             })
                             .text(function(d) {
                                 return d.properties.name_long;
                             })
-                            .attr("font-size", 16);
-
+                            .attr("font-size", 48)
+                            .moveToFront();
+                   })
+                   .on("mouseout", function(d) {
+                        d3.select(this).select("text").remove();
                    });
 
                 var paths = groups.append('path')
