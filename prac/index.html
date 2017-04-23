@@ -5,6 +5,8 @@
         <title>D3 Page Template</title>
         <script type="text/javascript" src="d3/d3.min.js"></script>
         <script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+        <script src="https://d3js.org/d3-array.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo.v1.min.js"></script>
         <style> 
             div.bar {
                 display: inline-block;
@@ -52,6 +54,8 @@
                         }
                     });
             });
+            var proj = d3.geoAlbers();
+            var path = d3.geoPath(proj);
         </script>
     </body>
 </html>
