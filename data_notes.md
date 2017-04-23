@@ -37,4 +37,4 @@
 **Color of countries on map:**
 * Represent health index
 
-**Both arrows and color of countries filterable into a one-to-many relationship between donors and recipient or vice-versa
+*Both arrows and color of countries filterable into a one-to-many relationship between donors and recipient or vice-versa
