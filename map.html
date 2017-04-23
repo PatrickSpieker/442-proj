@@ -22,26 +22,45 @@
                 .attr("cx", middle[0])
                 .attr("cy", middle[1])
                 .attr("rx", width / 2.5)
-                .attr("ry", height / 4)
+                .attr("ry", height / 2.5)
                 .style("fill","none")
                 .style("stroke", "black");
 
             var projection = d3.geoMercator()
-                .scale(300)
-                .center([30, 31])
+                .scale(500)
+                .center([47.5, 29])
                 .translate(middle);
 
             var path = d3.geoPath()
                 .projection(projection);
 
-            d3.json("me_na.json", function(error, me_na) {
+            d3.json("data/mid_east.json", function(error, me_na) {
                 if (error) throw error;
                 var features = me_na.features;
                 //console.log(features);
                 // Draw each province as a path
                 var groups = svg.selectAll('path')
                    .data(features)
-                   .enter().append("g");
+                   .enter().append("g")
+                   .on("mouseover", function(d) {
+                       console.log(d.properties.name_long);
+                   })
+                   .on("mouseout", function(d) {
+                        d3.select(this).append('text')
+                            .attr("x", function(d) {
+                                var bbox = this.parentNode.getBBox();
+                                return bbox.x;
+                            })
+                            .attr("y", function(d) {
+                                var bbox = this.parentNode.getBBox();
+                                return bbox.y;
+                            })
+                            .text(function(d) {
+                                return d.properties.name_long;
+                            })
+                            .attr("font-size", 16);
+
+                   });
 
                 var paths = groups.append('path')
                    .attr('d', path)
@@ -49,7 +68,7 @@
                    .style("stroke", function(d) {
                         return "black";
                    });
-
+                /*
                 var labels = groups.append('text')
                     .attr("x", function(d) {
                         var bbox = this.parentNode.getBBox();
@@ -60,11 +79,10 @@
                         return bbox.y;
                     })
                     .text(function(d) {
-                        console.log(d);
                         return d.properties.name_long;
                     })
                     .attr("font-size", 16);
-                
+               */ 
                 
             });
         </script>
